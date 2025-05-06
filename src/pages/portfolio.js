@@ -304,6 +304,7 @@ const TabsComponent = () => {
                         src={require(`../assets/img/${item.image}`)}
                         className="img-fluid w-100"
                         alt={item.name}
+                        loading="lazy"
                       />
                     </div>
                     <h4 className="name">{item.name}</h4>

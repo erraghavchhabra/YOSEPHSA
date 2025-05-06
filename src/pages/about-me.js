@@ -1,7 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import demoImg from "../assets/img/demo.jpg";
+import moonLightImage from "../assets/img/Moonlight.png";
 import Exp from "../components/aboutExp";
+import demoImg from "../assets/img/demo.jpg";
+import CraftThroughImage from "../assets/img/2018.04.19.png";
+
 const About = () => {
   return (
     <div>
@@ -32,7 +34,7 @@ const About = () => {
             <p class="p1">Ever since I can remember, design has been a cornerstone of my life. As a child, I found immense joy in creating—whether it was decorating my school books or crafting personalized designs for my assignments. These early experiences sparked a passion that has guided me through every stage of my career. Starting with active participation in online design communities, such as <strong>Kooora.com</strong>, I explored new ways to express creativity and connect with like-minded individuals, laying the foundation for my career in design and digital communication.</p>
           </div>
           <div className="col-lg-4">
-            <img src={demoImg} className="img-fluid w-100 rounded" alt="" />
+            <img src={moonLightImage} className="img-fluid w-100 rounded" alt="" />
           </div>
         </div>
         <div className="row ab-row">
@@ -43,7 +45,7 @@ const About = () => {
 
           </div>
           <div className="col-lg-4">
-            <img src={demoImg} className="img-fluid w-100 rounded" alt="" />
+            <img src={CraftThroughImage} className="img-fluid w-100 rounded" alt="" />
           </div>
         </div>
         <div className="row ab-row">

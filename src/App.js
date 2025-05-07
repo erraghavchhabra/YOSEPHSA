@@ -6,18 +6,25 @@ import Resume from "./pages/resume";
 import Contact from "./pages/contact";
 import Portfolio from "./pages/portfolio";
 import Navbar from "./components/Navbar";
-import Footer from  "./components/footer"
-import "./App.css"; // Make sure your preloader styles are in here
+import Footer from "./components/footer";
+import "./App.css"; // Preloader styles
+import AOS from "aos";
+import "aos/dist/aos.css"; // AOS styles
 
 const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading delay (or remove when data is fetched)
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); // 2 seconds
-
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -31,19 +38,17 @@ const App = () => {
         </div>
       )}
       {!loading && (
-        <>
-         <div className="main-wrapper">
-         <Navbar />
+        <div className="main-wrapper">
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="about-me" element={<About />} />
-            <Route path="resume" element={<Resume />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="portfolio" element={<Portfolio />} />
+            <Route path="/about-me" element={<About />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/portfolio" element={<Portfolio />} />
           </Routes>
           <Footer />
-         </div>
-        </>
+        </div>
       )}
     </Router>
   );

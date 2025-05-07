@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import logo from "../assets/img/Yosephicon.png";
-import packageJson from '../../package.json';
 import { Link } from "react-router-dom";
+import logo from "../assets/img/Yosephicon.png";
+import packageJson from "../../package.json";
+import ThemeToggle from "./ThemeToggle";
+
 const BASE_URL = packageJson.apiUrl;
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [isNavOpen, setIsNavOpen] = useState(false); // 👈 custom toggle state
 
-  // Fetch categories from the API
+  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          `${BASE_URL}/category/list`
-        );
+        const response = await fetch(`${BASE_URL}/category/list`);
         const data = await response.json();
         if (data.success) {
           setCategories(data.data);
@@ -27,18 +28,20 @@ const Navbar = () => {
     fetchCategories();
   }, []);
 
-  // Handle scroll position
-  const handleScroll = () => {
-    setIsScrolled(window.scrollY > 50);
-  };
-
+  // Scroll listener
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
     };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Toggle function
+  const toggleNavbar = () => {
+    setIsNavOpen((prev) => !prev);
+  };
 
   return (
     <nav
@@ -47,39 +50,44 @@ const Navbar = () => {
       }`}
     >
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          <img src={logo}  className="img-fluid h-logo" alt="logo" />
-        </a>
+        <Link className="navbar-brand" to="/">
+          <img src={logo} className="img-fluid h-logo" alt="logo" />
+        </Link>
+
         <button
-          className="navbar-toggler"
+          className="navbar-toggler edit-navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
+          onClick={toggleNavbar}
+          aria-expanded={isNavOpen}
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+
+        <div
+          className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
+          id="navbarNav"
+        >
           <ul className="navbar-nav ms-auto ul-right">
-            <li className="nav-item active">
-              <a className="nav-link" href="resume">
+            <li className="nav-item">
+              <Link className="nav-link" to="/resume" onClick={() => setIsNavOpen(false)}>
                 Resume
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="portfolio">
+              <Link className="nav-link" to="/portfolio" onClick={() => setIsNavOpen(false)}>
                 Portfolio
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="contact">
+              <Link className="nav-link" to="/contact" onClick={() => setIsNavOpen(false)}>
                 Contact
-              </a>
+              </Link>
+            </li>
+            <li className="nav-item d-flex align-items-center">
+              <ThemeToggle />
             </li>
           </ul>
-          
         </div>
       </div>
     </nav>

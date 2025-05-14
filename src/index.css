@@ -756,14 +756,276 @@ input:focus {
 .port-box:hover .category {
   opacity: 1;
 }
+.nav-portfolio {
+  margin-bottom: 20px;
+}
+.nav-portfolio a {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  color: #888;
+  background-color: #fafafa;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+.nav-portfolio a i {
+  line-height: 40px;
+  font-weight: bold;
+}
+.nav-portfolio a:hover {
+  color: #fff;
+  background-color: #b79230;
+}
+.project-description {
+  display: block;
+  position: relative;
+  padding: 25px 30px 25px;
+  background-color: #fefefe;
+  border-radius: 15px;
+  border: 2px solid #eee;
+  margin-left: 20px;
+}
+
+.portfolio-page-wrapper .block-title h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.project-general-info {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px;
+}
+
+.project-general-info li {
+  margin: 0 0 10px;
+}
+
+.project-general-info .fa {
+  color: #7066ff;
+  margin-right: 5px;
+}
+
+.entry-content .portfolio-page-content .project-general-info p {
+  margin: 0;
+  font-size: 1em;
+}
+
+.share-buttons {
+  margin: 25px 0 0;
+}
+
+.project-general-info {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px;
+}
+
+.project-general-info li {
+  margin: 0 0 10px;
+}
+.detail-title {
+  font-size: 32px;
+  color: #333333;
+}
+.project-general-info .bi {
+  color: #b79230;
+  margin-right: 5px;
+}
+
+.project-general-info p {
+  margin: 0;
+}
+
+.share-buttons {
+  margin: 25px 0 0;
+}
+
+.share-buttons a {
+  display: inline-block;
+  margin: 0 3px 0 0;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  color: #888;
+  background-color: transparent;
+  border: 0;
+  text-align: center;
+}
+
+.portfolio-page-content .share-buttons a {
+  margin: 0 7px 0 0;
+}
+
+.share-buttons a:hover {
+  color: #7066ff;
+}
+
+.share-buttons a:last-child {
+  margin-right: 0;
+}
+
+.share-buttons a i {
+  font-size: 16px;
+  line-height: 26px;
+}
+.gallery-container {
+  position: relative;
+  width: 100%;
+}
+
+.single-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.vertical-image {
+  width: 100%;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid #EABB63;
+  border-radius: 18px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.grid-image {
+  width: 100%;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* Popup styling */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden; /* prevent horizontal scroll */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* fixed position inside popup box */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px 10px;
+  z-index: 10000;
+}
 
 @media (max-width: 992.2px) {
   .main-wrapper {
     padding-left: 15px;
     padding-right: 15px;
+    padding-top: 40px;
   }
   .m-nav-tabs .nav-link {
     font-size: 12px;
     padding: 3px 10px;
+  }
+  .h-logo {
+    height: auto;
+    max-height: 50px;
+    width: auto;
+    max-width: 50px;
+  }
+  .m-navbar {
+    margin-top: -1px;
+    background: #fff !important;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+  }
+  .mobile-nav-wrapper {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    transition: right 0.3s ease-in-out;
+    z-index: 1050;
+    padding: 4rem 1.5rem 2rem; /* padding-top allows for top alignment */
+    overflow-y: auto;
+    margin-top: 75px;
+  }
+
+  .mobile-nav-wrapper.open {
+    right: 0;
+    margin-top: 75px;
+  }
+
+  .ul-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* left aligned */
+    gap: 1.5rem;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 1.25rem;
+    color: #333;
+  }
+
+  .navbar-toggler {
+    z-index: 1100;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1040;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+  /* Ensure navbar stays fixed with shadow when scrolled */
+  .navbar.fixed-top {
+    z-index: 1060;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .navbar.scrolled {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 }

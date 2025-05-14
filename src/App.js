@@ -10,6 +10,7 @@ import Footer from "./components/footer";
 import "./App.css"; // Preloader styles
 import AOS from "aos";
 import "aos/dist/aos.css"; // AOS styles
+import ProjectDetail from "./pages/ProjectDetail";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -46,6 +47,7 @@ const App = () => {
             <Route path="/resume" element={<Resume />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/details/:id" element={<ProjectDetail />} />
           </Routes>
           <Footer />
         </div>

@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/Yosephicon.png";
 import packageJson from "../../package.json";
-import ThemeToggle from "./ThemeToggle";
 
 const BASE_URL = packageJson.apiUrl;
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [isNavOpen, setIsNavOpen] = useState(false); // 👈 custom toggle state
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
-  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -24,28 +22,21 @@ const Navbar = () => {
         console.error("Error fetching categories:", error);
       }
     };
-
     fetchCategories();
   }, []);
 
-  // Scroll listener
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Toggle function
-  const toggleNavbar = () => {
-    setIsNavOpen((prev) => !prev);
-  };
+  const toggleNavbar = () => setIsNavOpen(prev => !prev);
+  const closeNav = () => setIsNavOpen(false);
 
   return (
     <nav
-      className={`navbar m-navbar navbar-expand-lg navbar-light bg-light ${
+      className={`navbar  m-navbar navbar-expand-lg navbar-light bg-light ${
         isScrolled ? "scrolled" : ""
       }`}
     >
@@ -64,28 +55,27 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
+        {isNavOpen && <div className="overlay" onClick={closeNav}></div>}
+
         <div
-          className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
+          className={`mobile-nav-wrapper ${isNavOpen ? "open" : ""}`}
           id="navbarNav"
         >
           <ul className="navbar-nav ms-auto ul-right">
             <li className="nav-item">
-              <Link className="nav-link" to="/resume" onClick={() => setIsNavOpen(false)}>
+              <Link className="nav-link" to="/resume" onClick={closeNav}>
                 Resume
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/portfolio" onClick={() => setIsNavOpen(false)}>
+              <Link className="nav-link" to="/portfolio" onClick={closeNav}>
                 Portfolio
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/contact" onClick={() => setIsNavOpen(false)}>
+              <Link className="nav-link" to="/contact" onClick={closeNav}>
                 Contact
               </Link>
-            </li>
-            <li className="nav-item d-flex align-items-center">
-              <ThemeToggle />
             </li>
           </ul>
         </div>

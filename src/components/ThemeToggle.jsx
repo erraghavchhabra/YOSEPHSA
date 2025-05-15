@@ -13,7 +13,7 @@ const ThemeToggle = () => {
         />
         <span className="slider" />
       </label>
-      <span className="label-text">{theme === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
+      <span className="label-text">{theme === 'dark' ? '' : ''}</span>
     </div>
   );
 };

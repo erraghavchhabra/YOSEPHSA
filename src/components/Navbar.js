@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/Yosephicon.png";
 import packageJson from "../../package.json";
-
+import ThemeToggle from "./ThemeToggle";
 const BASE_URL = packageJson.apiUrl;
 
 const Navbar = () => {
@@ -76,6 +76,9 @@ const Navbar = () => {
               <Link className="nav-link" to="/contact" onClick={closeNav}>
                 Contact
               </Link>
+            </li>
+             <li className="nav-item d-flex align-items-center">
+              <ThemeToggle />
             </li>
           </ul>
         </div>

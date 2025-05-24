@@ -41,7 +41,7 @@ const TabsComponent = () => {
           name,
           image,
           category,
-          id
+          projectid
         }`;
 
       try {
@@ -97,7 +97,7 @@ const TabsComponent = () => {
                   data-aos="fade-up"
                   data-aos-delay={index * 100}
                 >
-                  <a href={`details/${item.id}`} className="port-box">
+                  <a href={`details/${item.projectid}`} className="port-box">
                     <div className="item-img">
                       <img
                         src={item.imageUrl}

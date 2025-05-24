@@ -1,12 +1,82 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import portfolioJson from "../json/portfolioData.json";
 import { useNavigate, useParams } from "react-router-dom";
 import Gallery from "../components/Gallery";
+import { client } from "../common/sanityClient";
+import imageUrlBuilder from "@sanity/image-url";
 
+const builder = imageUrlBuilder(client);
+function urlFor(source) {
+  return builder.image(source);
+}
 const ProjectDetail = () => {
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { id } = useParams();
-  const project = portfolioJson.find((item) => item.id == id);
+  useEffect(() => {
+    const fetchSingleProject = async () => {
+      const query = `*[_type == "project2" && id == $id][0]{
+  name,
+  image,
+  category,
+  id,
+  userClass,
+  years,
+  multiImages,
+  descriptionTitle,
+  shortDescription,
+  descriptionImage,
+  link {
+    title,
+    url
+  },
+  description {
+    ProjectOverview { title, content },
+    ConceptObjective { title, content },
+    DesignProcess {
+      title,
+      content[] { title, content }
+    },
+    ResearchInspiration { title, content },
+    impactReflection { title, content },
+    ProjectHighlights {
+      title,
+      content[] { title, content }
+    },
+    conclusion { title, content }
+  },
+  iframes[] {
+    src
+  }
+}`;
+
+      try {
+        const data = await client.fetch(query, { id });
+
+        if (data) {
+          setProject({
+            ...data,
+            imageUrl: data?.image ? urlFor(data?.image).url() : null,
+            multiImageUrls: data?.multiImages
+              ? data?.multiImages.map((img) => urlFor(img).width(400).url())
+              : [],
+            descriptionImageUrl: data?.descriptionImage
+              ? urlFor(data?.descriptionImage).url()
+              : null,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching project detail:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSingleProject();
+  }, [id]);
+
+  // const project = portfolioJson.find((item) => item.id == id);
   if (!project) {
     return <div>Project not found</div>;
   }
@@ -21,7 +91,7 @@ const ProjectDetail = () => {
   const handleNext = () => {
     if (!id) return;
     const nextId = parseInt(id, 10) + 1;
-    const nextProject = portfolioJson.find((item) => item.id == nextId);
+    const nextProject = portfolioJson?.find((item) => item.id == nextId);
     if (!nextProject) return; // Prevent going to a non-existent ID
     navigate(`/details/${nextId}`);
   };
@@ -99,26 +169,26 @@ const ProjectDetail = () => {
                 {project?.description?.ProjectOverview && (
                   <p>
                     <strong>
-                      {project?.description?.ProjectOverview?.title}
+                      {project?.description?.ProjectOverview?.title || "Project Overview"}
                     </strong>
                     <br />
                     {project?.description?.ProjectOverview?.content}
                   </p>
                 )}
-                {project?.description?.["Concept&Objective"] && (
+                {project?.description?.ConceptObjective && (
                   <p>
                     <strong>
-                      {project?.description?.["Concept&Objective"]?.title}
+                      {project?.description?.ConceptObjective?.title || "Concept & Objective"}
                     </strong>
                     <br />
-                    {project?.description?.["Concept&Objective"]?.content}
+                    {project?.description?.ConceptObjective?.content}
                   </p>
                 )}
                 {project?.description?.DesignProcess && (
                   <>
                     <p>
                       <strong>
-                        {project?.description?.DesignProcess?.title}
+                        {project?.description?.DesignProcess?.title || "Design Process"}
                       </strong>
                     </p>
                     {project?.description?.DesignProcess?.description && (
@@ -137,20 +207,29 @@ const ProjectDetail = () => {
                   </>
                 )}
 
-                {project?.description?.["Impact&Reflection"] && (
+                {project?.description?.ResearchInspiration && (
                   <p>
                     <strong>
-                      {project?.description?.["Impact&Reflection"]?.title}
+                      {project?.description?.ResearchInspiration?.title || "Research & Inspiration"}
                     </strong>
                     <br />
-                    {project?.description?.["Impact&Reflection"]?.content}
+                    {project?.description?.ResearchInspiration?.content}
+                  </p>
+                )}
+                {project?.description?.impactReflection && (
+                  <p>
+                    <strong>
+                      {project?.description?.impactReflection?.title || "Impact & Reflection"}
+                    </strong>
+                    <br />
+                    {project?.description?.impactReflection?.content}
                   </p>
                 )}
                 {project?.description?.ProjectHighlights && (
                   <>
                     <p>
                       <strong>
-                        {project?.description?.ProjectHighlights?.title}
+                        {project?.description?.ProjectHighlights?.title || "Project Highlights"}
                       </strong>
                     </p>
                     <ul>
@@ -168,7 +247,7 @@ const ProjectDetail = () => {
 
                 {project?.description?.Conclusion && (
                   <p>
-                    <strong>{project?.description?.Conclusion?.title}</strong>
+                    <strong>{project?.description?.Conclusion?.title || "Conclusion"}</strong>
                     <br />
                     {project?.description?.Conclusion?.content}
                   </p>

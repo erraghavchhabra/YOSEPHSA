@@ -17,7 +17,7 @@ const ProjectDetail = () => {
   useEffect(() => {
     const fetchSingleProject = async () => {
       setLoading(true);
-      const query = `*[_type == "project2" && id == $id][0]{
+      const query = `*[_type == "project2" && projectid == $id][0]{
   name,
   image,
   category,

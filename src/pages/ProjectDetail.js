@@ -16,6 +16,7 @@ const ProjectDetail = () => {
   const { id } = useParams();
   useEffect(() => {
     const fetchSingleProject = async () => {
+      setLoading(true);
       const query = `*[_type == "project2" && id == $id][0]{
   name,
   image,
@@ -65,10 +66,10 @@ const ProjectDetail = () => {
               ? urlFor(data?.descriptionImage).url()
               : null,
           });
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching project detail:", error);
-      } finally {
         setLoading(false);
       }
     };
@@ -78,7 +79,7 @@ const ProjectDetail = () => {
 
   // const project = portfolioJson.find((item) => item.id == id);
   if (!project) {
-    return <div>Project not found</div>;
+    return loading ? <div>loading...</div> : <div>Project not found</div>;
   }
 
   const handleBack = () => {
@@ -169,7 +170,8 @@ const ProjectDetail = () => {
                 {project?.description?.ProjectOverview && (
                   <p>
                     <strong>
-                      {project?.description?.ProjectOverview?.title || "Project Overview"}
+                      {project?.description?.ProjectOverview?.title ||
+                        "Project Overview"}
                     </strong>
                     <br />
                     {project?.description?.ProjectOverview?.content}
@@ -178,7 +180,8 @@ const ProjectDetail = () => {
                 {project?.description?.ConceptObjective && (
                   <p>
                     <strong>
-                      {project?.description?.ConceptObjective?.title || "Concept & Objective"}
+                      {project?.description?.ConceptObjective?.title ||
+                        "Concept & Objective"}
                     </strong>
                     <br />
                     {project?.description?.ConceptObjective?.content}
@@ -188,7 +191,8 @@ const ProjectDetail = () => {
                   <>
                     <p>
                       <strong>
-                        {project?.description?.DesignProcess?.title || "Design Process"}
+                        {project?.description?.DesignProcess?.title ||
+                          "Design Process"}
                       </strong>
                     </p>
                     {project?.description?.DesignProcess?.description && (
@@ -210,7 +214,8 @@ const ProjectDetail = () => {
                 {project?.description?.ResearchInspiration && (
                   <p>
                     <strong>
-                      {project?.description?.ResearchInspiration?.title || "Research & Inspiration"}
+                      {project?.description?.ResearchInspiration?.title ||
+                        "Research & Inspiration"}
                     </strong>
                     <br />
                     {project?.description?.ResearchInspiration?.content}
@@ -219,7 +224,8 @@ const ProjectDetail = () => {
                 {project?.description?.impactReflection && (
                   <p>
                     <strong>
-                      {project?.description?.impactReflection?.title || "Impact & Reflection"}
+                      {project?.description?.impactReflection?.title ||
+                        "Impact & Reflection"}
                     </strong>
                     <br />
                     {project?.description?.impactReflection?.content}
@@ -229,7 +235,8 @@ const ProjectDetail = () => {
                   <>
                     <p>
                       <strong>
-                        {project?.description?.ProjectHighlights?.title || "Project Highlights"}
+                        {project?.description?.ProjectHighlights?.title ||
+                          "Project Highlights"}
                       </strong>
                     </p>
                     <ul>
@@ -247,7 +254,9 @@ const ProjectDetail = () => {
 
                 {project?.description?.Conclusion && (
                   <p>
-                    <strong>{project?.description?.Conclusion?.title || "Conclusion"}</strong>
+                    <strong>
+                      {project?.description?.Conclusion?.title || "Conclusion"}
+                    </strong>
                     <br />
                     {project?.description?.Conclusion?.content}
                   </p>
